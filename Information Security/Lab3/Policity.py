@@ -1,17 +1,19 @@
 from Users import User
 from Rights import Rights as Rig
-from random import shuffle, randrange
+from random import shuffle, randrange, randint
 from File import File
 
 class Policity:
 
     def __init__(self):
         self.OBJECTS = ["obj1", "obj2", "obj3"]
+        self.MINRANK = 3
         self.RANKS = [1,2,3]
         self.TEXTS = ["Hi, it's me Mario", "Yo", "Sou homem"]
-        self.USERS = ["ivan", "larisa", "kolya", "petya"]
+        self.USERS = ["ivan", "laris", "kolya", "petya","vova"]
         self.NAMERIGHTS = Rig.NAMERIGHTS
         self.accessNameRights = {user: {object: self.__getRand() if user != self.USERS[0] else Rig.NAMERIGHTS[:3] for object in self.OBJECTS} for user in self.USERS}
+        self.usersRanks = {user: randint(1,self.MINRANK) if user != self.USERS[0] else 1 for user in self.USERS}
         self.files = self.__createFiles(self.OBJECTS, self.RANKS, self.TEXTS)
 
 
@@ -24,11 +26,12 @@ class Policity:
         while True:
             userName = input("Login: ")
             if userName in self.USERS:
-                print("Welcome {}!".format(userName))
+                print("\nWelcome {}!".format(userName))
 
-                self.__status = {user: User(user, self.accessNameRights.get(user),"Admin" if user == self.USERS[0] else "Guest", Rig.NAMERIGHTS) for user in self.USERS}
+                self.__status = {user: User(user, self.accessNameRights.get(user),"Admin" if user == self.USERS[0] else "Guest", self.usersRanks.get(user), Rig.NAMERIGHTS) for user in self.USERS}
 
                 return self.__status.get(userName) if userName in self.__status.keys() else "none"
+            elif userName == "exit": return "exit" 
             else: print("Profile not found")
 
     def setRight(self, user = None, object = None, method = None):#To add some method(when creating new user)
@@ -40,6 +43,17 @@ class Policity:
                 else:  self.accessNameRights[user] = {obj: [method] for obj in object}
         else:
             self.accessNameRights[user] = {object: self.__getRand() for object in self.OBJECTS}
+
+    def setRank(self, user):
+        self.usersRanks[user]= randint(1,self.MINRANK)
+
+    def getRanks(self, names=None):
+      if names == None: names = self.usersRanks.keys()
+      else: names = [names]
+      ret = ''
+      for name in names: ret += "\n{}: {}".format(name, self.usersRanks.get(name))
+      return ret
+    
 
     def __createFiles(self, names, ranks, texts):
       files = {name: File(name,rank,text) for name,rank,text in zip(names,ranks,texts)}
