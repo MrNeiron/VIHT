@@ -1,9 +1,10 @@
 from Rights import Rights as Rig
 class User:
-    def __init__(self, name, objects, status, namerights):
+    def __init__(self, name, objects, status,rank, namerights):
         self.__name = name
-        self.__status = status
         self.__objects = objects
+        self.__status = status
+        self.__rank = rank
         self.NAMERIGHTS = namerights
         self.methods = set()
         for objName in self.__objects.keys():
@@ -22,6 +23,9 @@ class User:
 
     def getStatus(self):
         return self.__status
+
+    def getRank(self):
+        return self.__rank
 
     def PrintObjects(self):#To take objects
         ret = ''
