@@ -1,14 +1,18 @@
 from Users import User
 from Rights import Rights as Rig
 from random import shuffle, randrange
+from File import File
 
 class Policity:
 
     def __init__(self):
         self.OBJECTS = ["obj1", "obj2", "obj3"]
+        self.RANKS = [1,2,3]
+        self.TEXTS = ["Hi, it's me Mario", "Yo", "Sou homem"]
         self.USERS = ["ivan", "larisa", "kolya", "petya"]
         self.NAMERIGHTS = Rig.NAMERIGHTS
         self.accessNameRights = {user: {object: self.__getRand() if user != self.USERS[0] else Rig.NAMERIGHTS[:3] for object in self.OBJECTS} for user in self.USERS}
+        self.files = self.__createFiles(self.OBJECTS, self.RANKS, self.TEXTS)
 
 
     def __getRand(self):#To get some random values from list
@@ -37,6 +41,12 @@ class Policity:
         else:
             self.accessNameRights[user] = {object: self.__getRand() for object in self.OBJECTS}
 
+    def __createFiles(self, names, ranks, texts):
+      files = {name: File(name,rank,text) for name,rank,text in zip(names,ranks,texts)}
+      #[print("Name: ",files.get(name).getName()) for name in names]
+      #[print("Name: ",files.get(name).getText()) for name in names]
+      return files
+
     def getStatus(self, names = None):
         if names == None: names = self.__status.keys()
         else: names = [names]
@@ -53,3 +63,9 @@ class Policity:
 
     def getAccessNamesRights(self):
         return self.accessNameRights
+    
+    def getFiles(self, name = None):
+      if name == None:
+        return self.files
+      else:
+        return self.files[name]

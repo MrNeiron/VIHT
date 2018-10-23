@@ -15,6 +15,3 @@ class File():
 
   def getText(self):
     return self.text
-  
-  def getRank(self):
-    return self.rank

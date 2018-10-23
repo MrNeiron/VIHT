@@ -1,8 +1,9 @@
 class Rights:
 
     NAMERIGHTS = ["Read", "Write", "Transfer_of_rights", "Full access"]
-    def Read(cls, obj):
-        return("You can read {}!".format(obj))
+    def Read(cls, obj, curFile):
+      return curFile.getText()
+      #return("You can read {}!".format(obj))
     def Write(cls, obj):
         return("You can write {}!".format(obj))
 
