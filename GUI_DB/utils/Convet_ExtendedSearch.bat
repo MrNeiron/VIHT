@@ -1,0 +1,1 @@
+pyuic5 c:\users\ivan\githubme\forvivt\utils\ExtendedSearch.ui -o c:\users\ivan\githubme\forvivt\ExtendedSearch.py
